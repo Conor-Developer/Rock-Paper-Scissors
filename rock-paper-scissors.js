@@ -1,3 +1,18 @@
+let computerScore = 0;
+let playerScore = 0;
+
+const container = document.querySelector("#container");
+const score = document.createElement("p");
+const pscore = document.createElement("p");
+const container1 = document.querySelector("#container1");
+const cscore = document.createElement("p");
+const rpswinner = document.createElement("p");
+
+cscore.textContent = `Computer Score: ${computerScore}`;
+pscore.textContent = `Player Score: ${playerScore}`;
+container.appendChild(pscore);
+container.appendChild(cscore);
+
 function computerPlay() {
     randomCP = Math.floor(Math.random()*3) + 1;
     if (randomCP === 1) {
@@ -9,80 +24,118 @@ function computerPlay() {
     }    
 }
 
-function capitalize(string) {
-    let firstw = string[0].toUpperCase();
-    let secondw = string.substr(1);
-    let thirdw = secondw.toLowerCase();
-    return firstw + thirdw;
-}
-
-
-let computerScore = 0;
-let playerScore = 0;
-
-
 function playRound(computerSelection, playerSelection) {
 
     if (computerSelection === "Rock" && playerSelection === "Scissors") {
+        score.textContent = "You Lose! Rock beats Scissors!"; 
+        container1.appendChild(score);
         computerScore++;
-        return console.log("You Lose! Rock beats Scissors!"); 
+        
+        
     } else if (computerSelection === "Paper" && playerSelection === "Rock") {
+        score.textContent = "You Lose! Paper beats Rock!";
+        container1.appendChild(score);
         computerScore++;
-        return console.log("You Lose! Paper beats Rock!");
+        
+     
     } else if (computerSelection === "Scissors" && playerSelection === "Paper") {
+        score.textContent = "You Lose! Scissors beats Paper!";
+        container1.appendChild(score);
         computerScore++;
-        return console.log("You Lose! Scissors beats Paper!");
-    
+       
+        
     } else if (computerSelection === "Scissors" && playerSelection === "Rock") {
+        score.textContent = "You Win! Rock beats Scissors!";
+        container1.appendChild(score);
         playerScore++;
-        return console.log("You Win! Rock beats Scissors!");
- 
+        
     } else if (computerSelection === "Rock" && playerSelection === "Paper") {
+        score.textContent = "You Win! Paper beats Rock!";
+        container1.appendChild(score);
         playerScore++;
-        return console.log("You Win! Paper beats Rock!");
- 
+
     } else if (computerSelection === "Paper" && playerSelection === "Scissors") {
+        score.textContent = "You Win! Scissors beats Paper!";
+        container1.appendChild(score);
         playerScore++;
-        return console.log("You Win! Scissors beats Paper!");
 
-    } else
-        return console.log("It's a draw!");
-  
+    } else {
+        score.textContent = "It's a draw!";
+        container1.appendChild(score); 
+     
+    }
+    cscore.textContent = `Computer Score: ${computerScore}`;
+    pscore.textContent = `Player Score: ${playerScore}`;
+    container.appendChild(pscore);
+    container.appendChild(cscore);
+    determineWinner();
 }
 
-function game() {
-    let userPrompt = prompt("Rock, Paper or Scissors?: ");
-    const playerSelection1 = capitalize(userPrompt);
-    const computerSelection1 = computerPlay();
-    playRound(computerSelection1, playerSelection1);   
+function playGame() {
+
+    const btnr = document.querySelector("#btnr");
+    btnr.addEventListener("click", () => {
+        const computerSelection1 = computerPlay();
+        playRound(computerSelection1, "Rock");
+
+    });
+
+    const btnp = document.querySelector("#btnp");
+    btnp.addEventListener("click", () => {
+        const computerSelection1 = computerPlay();
+        playRound(computerSelection1, "Paper");
+    
+    });
+
+    const btns = document.querySelector("#btns");
+    btns.addEventListener("click", () => {
+        const computerSelection1 = computerPlay();
+        playRound(computerSelection1, "Scissors");
+
+    });
 }
 
+function determineWinner() {
 
-game();
-console.log(`Computer Score: ${computerScore}`);
-console.log(`Player Score: ${playerScore}`);
-game();
-console.log(`Computer Score: ${computerScore}`);
-console.log(`Player Score: ${playerScore}`);
-game();
-console.log(`Computer Score: ${computerScore}`);
-console.log(`Player Score: ${playerScore}`);
-game();
-console.log(`Computer Score: ${computerScore}`);
-console.log(`Player Score: ${playerScore}`);
-game();
-console.log(`Computer Score: ${computerScore}`);
-console.log(`Player Score: ${playerScore}`);
+    if (computerScore === 5) {
+        document.querySelector("#btnr").disabled = true;
+        document.querySelector("#btnp").disabled = true;
+        document.querySelector("#btns").disabled = true;
+        const container2 = document.querySelector("#container2");
+        rpswinner.textContent = "You lose!";
+        container2.appendChild(rpswinner);
+
+        const refreshButton = document.createElement("button");
+        refreshButton.textContent = "Retry";
+        container2.appendChild(refreshButton);
+        refreshButton.classList.add("buttonsize");
+    
+        refreshButton.addEventListener("click", () => {
+        location.reload();
+        });
+
+    } else if (playerScore === 5) {
+        document.querySelector("#btnr").disabled = true;
+        document.querySelector("#btnp").disabled = true;
+        document.querySelector("#btns").disabled = true;
+        const container2 = document.querySelector("#container2");
+        rpswinner.textContent = "You win!";
+        container2.appendChild(rpswinner);
+
+        const refreshButton = document.createElement("button");
+        refreshButton.textContent = "Retry";
+        container2.appendChild(refreshButton);
+        refreshButton.classList.add("buttonsize");
+    
+        refreshButton.addEventListener("click", () => {
+        location.reload();
+        });
+
+    }
+};
+
+playGame();
 
 
-winner();
 
-function winner() {
-    if (playerScore === computerScore) {
-        console.log("Its a draw!");
-    } else if (playerScore > computerScore) {
-        console.log("You win the game!");
-    } else
-        console.log("You lose the game!");
-
-}
+    
